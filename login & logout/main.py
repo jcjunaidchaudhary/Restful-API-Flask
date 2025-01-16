@@ -29,6 +29,21 @@ def home():
         resp = jsonify({'message' : 'Unauthorized'})
         resp.status_code = 401
         return resp
+
+@app.route("/signup", methods=['POST'])
+def signup():
+    json = request.json
+    username = json['username']
+    password = json['password']
+    profession=json['profession']
+    passhash = generate_password_hash(password)
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    sql = "INSERT INTO user (username, profession, password) VALUES (%s, %s, %s)"
+    values = (username, profession, passhash)
+    cursor.execute(sql, values)
+    mysql.connection.commit()
+    cursor.close()
+    return "Successfully Signup"
  
 @app.route('/login', methods=['POST'])
 def login():
