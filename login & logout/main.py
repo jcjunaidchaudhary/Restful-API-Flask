@@ -20,8 +20,6 @@ mysql = MySQL(app)
  
 @app.route('/')
 def home():
-    passhash = generate_password_hash('1234')
-    print(passhash)
     if 'username' in session:
         username = session['username']
         return jsonify({'message' : 'You are already logged in', 'username' : username})
